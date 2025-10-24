@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>user registration</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f2f2f2;
+      text-align: center;
+      padding: 50px;
+      margin: 0;
+    }
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .table-container {
+      width: 80%;
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #ccc;
+    }
+    th {
+      background-color: #6a11cb;
+      color: white;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #e63946;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #c71c2a;
+    }
+    #noData {
+      color: gray;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Registered User Details</h2>
+  <div class="table-container">
+    <table id="userTable">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Password</th>
+          <th>Date & Time</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div id="noData">No registration data found.</div>
+  </div>
+
+  <button id="clearBtn">Clear All Data</button>
+
+  <script>
+    const tableBody = document.querySelector("#userTable tbody");
+    const noData = document.getElementById("noData");
+
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+
+    if (users.length > 0) {
+      noData.style.display = "none";
+      users.forEach(user => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${user.username}</td>
+          <td>${user.email}</td>
+          <td>${user.password}</td>
+          <td>${user.date}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    document.getElementById("clearBtn").addEventListener("click", () => {
+      if (confirm("Are you sure you want to clear all data?")) {
+        localStorage.removeItem("users");
+        location.reload();
+      }
+    });
+  </script>
+</body>
+</html>
